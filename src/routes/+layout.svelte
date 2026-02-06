@@ -5,11 +5,16 @@
 	import { browser } from '$app/environment';
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import CookieBanner from '$lib/components/CookieBanner.svelte';
 	import { user } from '$lib/stores/auth';
+	import { initializeCookiePreferences } from '$lib/stores/cookies';
   
-	// Initialize auth state
+	// Initialize auth state and cookie preferences
 	onMount(() => {
 	  if (browser) {
+		// Initialize cookie preferences
+		initializeCookiePreferences();
+		
 		// Check if user is logged in by making a request to /api/auth/me
 		fetch('/api/auth/me')
 		  .then(res => res.json())
@@ -39,5 +44,8 @@
 	</main>
 	
 	<Footer />
+	
+	<!-- Cookie Banner -->
+	<CookieBanner />
   </div>
   

@@ -1,0 +1,97 @@
+# 🗄️ Commandes pour Explorer la Base de Données Sheos
+
+## 1. Ouvrir la base de données
+sqlite3 data/sheos.db
+
+## 2. Commandes de base dans SQLite
+.tables                    # Voir toutes les tables
+.schema products          # Voir la structure de la table products
+.headers on               # Afficher les en-têtes des colonnes
+.mode column              # Affichage en colonnes
+.quit                     # Quitter
+
+## 3. Requêtes d'exploration rapides
+
+-- Compter les enregistrements par table
+SELECT 'brands' as table, COUNT(*) as count FROM brands
+UNION ALL
+SELECT 'products', COUNT(*) FROM products
+UNION ALL
+SELECT 'variants', COUNT(*) FROM variants
+UNION ALL
+SELECT 'users', COUNT(*) FROM users;
+
+-- Top 10 des produits par prix
+SELECT name, price, brand_id FROM products 
+ORDER BY price DESC LIMIT 10;
+
+-- Produits par marque
+SELECT b.name as brand, COUNT(p.id) as products 
+FROM brands b 
+LEFT JOIN products p ON b.id = p.brand_id 
+GROUP BY b.id 
+ORDER BY products DESC;
+
+-- Variantes avec stock faible
+SELECT p.name, v.size, v.color, v.stock 
+FROM variants v 
+JOIN products p ON v.product_id = p.id 
+WHERE v.stock < 5 
+ORDER BY v.stock;
+
+-- Derniers produits ajoutés
+SELECT name, price, created_at 
+FROM products 
+ORDER BY created_at DESC 
+LIMIT 10;
+
+-- Utilisateurs et leurs commandes
+SELECT u.email, u.first_name, u.last_name, COUNT(o.id) as orders
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+GROUP BY u.id
+ORDER BY orders DESC;
+
+## 4. Commandes d'export
+
+-- Exporter en CSV
+.headers on
+.mode csv
+.output products.csv
+SELECT * FROM products;
+.output stdout
+
+-- Exporter en JSON (nécessite sqlite3 avec support JSON)
+SELECT json_group_array(
+  json_object('id', id, 'name', name, 'price', price)
+) FROM products;
+
+## 5. Commandes de maintenance
+
+-- Voir la taille de la base
+PRAGMA page_count;
+PRAGMA page_size;
+
+-- Voir les index
+.indices
+
+-- Analyser les performances d'une requête
+EXPLAIN QUERY PLAN SELECT * FROM products WHERE price > 100;
+
+## 6. Commandes en une ligne (sans ouvrir SQLite)
+
+# Voir toutes les tables
+sqlite3 data/sheos.db ".tables"
+
+# Compter les produits
+sqlite3 data/sheos.db "SELECT COUNT(*) FROM products;"
+
+# Top 5 des marques
+sqlite3 data/sheos.db "SELECT b.name, COUNT(p.id) FROM brands b LEFT JOIN products p ON b.id = p.brand_id GROUP BY b.id ORDER BY COUNT(p.id) DESC LIMIT 5;"
+
+# Produits avec stock faible
+sqlite3 data/sheos.db "SELECT p.name, v.stock FROM products p JOIN variants v ON p.id = v.product_id WHERE v.stock < 5 ORDER BY v.stock;"
+
+# Dernières commandes
+sqlite3 data/sheos.db "SELECT order_number, total, status, created_at FROM orders ORDER BY created_at DESC LIMIT 5;"
+

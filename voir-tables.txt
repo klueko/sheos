@@ -1,0 +1,39 @@
+# 👀 Commandes pour Voir Visuellement vos Tables
+
+## 1. Tables avec formatage (mode table)
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT * FROM brands;"
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT * FROM products LIMIT 10;"
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT * FROM variants LIMIT 15;"
+
+## 2. Voir les produits avec leurs marques
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT p.name, b.name as brand, p.price FROM products p JOIN brands b ON p.brand_id = b.id LIMIT 10;"
+
+## 3. Voir le stock par produit
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT p.name, v.size, v.color, v.stock FROM products p JOIN variants v ON p.id = v.product_id WHERE p.name LIKE '%Dr. Martens%' ORDER BY v.size;"
+
+## 4. Voir les commandes récentes
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT order_number, total, status, created_at FROM orders ORDER BY created_at DESC LIMIT 10;"
+
+## 5. Voir les utilisateurs
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT email, first_name, last_name, role, created_at FROM users;"
+
+## 6. Statistiques par marque
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT b.name, COUNT(p.id) as produits, AVG(p.price) as prix_moyen FROM brands b LEFT JOIN products p ON b.id = p.brand_id GROUP BY b.id ORDER BY produits DESC;"
+
+## 7. Produits avec stock faible
+sqlite3 data/sheos.db ".mode table" ".headers on" "SELECT p.name, v.size, v.stock FROM products p JOIN variants v ON p.id = v.product_id WHERE v.stock < 5 ORDER BY v.stock;"
+
+## 8. Voir toutes les tables disponibles
+sqlite3 data/sheos.db ".tables"
+
+## 9. Voir la structure d'une table
+sqlite3 data/sheos.db ".schema products"
+
+## 10. Mode interactif pour explorer
+sqlite3 data/sheos.db
+.headers on
+.mode table
+.tables
+SELECT * FROM brands;
+.quit
+

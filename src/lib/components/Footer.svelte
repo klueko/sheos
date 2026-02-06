@@ -4,7 +4,7 @@
       <!-- Présentation de l'entreprise -->
       <div class="col-span-1 md:col-span-2">
         <h3 class="text-3xl font-extrabold tracking-tight mb-3">Sheos</h3>
-        <p class="text-gray-300 mb-6">Le meilleur du footwear alternatif et responsable.</p>
+        <p class="text-gray-300 mb-6">Le meilleur du footwear urbain.</p>
         <div class="flex space-x-4">
           <a href="https://facebook.com" class="text-gray-400 hover:text-blue-500 transition" aria-label="Facebook">
             <!-- Facebook SVG -->
@@ -36,14 +36,10 @@
 
       <!-- Liens rapides -->
       <div>
-        <h4 class="text-lg font-semibold mb-4">Liens rapides</h4>
+        <h4 class="text-lg font-semibold mb-4">Actualités</h4>
         <ul class="space-y-2 text-gray-300">
-          <li><a href="/products" class="hover:text-white">Tous nos produits</a></li>
-          <li><a href="/products?vegan=true" class="hover:text-white">Sélection vegan</a></li>
-          <li><a href="/products?steel_toe=true" class="hover:text-white">Coques renforcées</a></li>
-          <li><a href="/products?brand=new-rock" class="hover:text-white">New Rock</a></li>
-          <li><a href="/products?brand=tuk" class="hover:text-white">T.U.K.</a></li>
-          <li><a href="/products?brand=demonia" class="hover:text-white">Demonia</a></li>
+          <li><a href="/products" class="hover:text-white">Nouveautés</a></li>
+          <li><a href="/products?steel_toe=true" class="hover:text-white">Offres exclusives</a></li>
         </ul>
       </div>
 
@@ -65,10 +61,17 @@
         <p class="text-gray-400 text-sm">
           © 2025 Sheos.
         </p>
-        <div class="flex space-x-6 mt-4 md:mt-0">
-          <a href="/privacy" class="text-gray-400 hover:text-white text-sm">Politique de confidentialité</a>
-          <a href="/terms" class="text-gray-400 hover:text-white text-sm">Conditions générales</a>
-          <a href="/cookies" class="text-gray-400 hover:text-white text-sm">Cookies</a>
+        <div class="flex flex-wrap gap-4 mt-4 md:mt-0">
+          <a href="/account/data-management" class="text-gray-400 hover:text-white text-sm">Mentions légales</a>
+          <a href="/legal/privacy-policy" class="text-gray-400 hover:text-white text-sm">Politique de confidentialité</a>
+          <a href="/legal/terms" class="text-gray-400 hover:text-white text-sm">Conditions générales</a>
+          <a href="/legal/legal-notice" class="text-gray-400 hover:text-white text-sm">Mentions légales</a>
+          <button 
+            on:click={() => window.dispatchEvent(new CustomEvent('showCookiePreferences'))}
+            class="text-gray-400 hover:text-white text-sm bg-transparent border-none cursor-pointer"
+          >
+            Gestion des cookies
+          </button>
         </div>
       </div>
     </div>

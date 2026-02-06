@@ -61,6 +61,8 @@ export const GET: RequestHandler = async ({ params }) => {
         sku: variants.sku,
         price: variants.price,
         stock: variants.stock,
+        onHand: variants.onHand,
+        reserved: variants.reserved,
         isActive: variants.isActive,
         createdAt: variants.createdAt,
         updatedAt: variants.updatedAt
